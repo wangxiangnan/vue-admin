@@ -117,7 +117,7 @@ function addPathMatch() {
 // 初始化路由
 function initRouter(name: string) {
   return new Promise(resolve => {
-    getAsyncRoutes({ name }).then(({ info }) => {
+    getAsyncRoutes({ name }).then((info: any) => {
       if (info.length === 0) {
         usePermissionStoreHook().changeSetting(info);
       } else {

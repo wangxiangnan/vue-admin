@@ -11,7 +11,6 @@ import { initRouter } from "/@/router/utils";
 import { useNav } from "/@/layout/hooks/useNav";
 import { message } from "@pureadmin/components";
 import type { FormInstance } from "element-plus";
-import { storageSession } from "@pureadmin/utils";
 import { $t, transformI18n } from "/@/plugins/i18n";
 import { operates, thirdParty } from "./utils/enums";
 import { useLayout } from "/@/layout/hooks/useLayout";
@@ -48,8 +47,8 @@ const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translationCh, translationEn } = useTranslationLang();
 
 const ruleForm = reactive({
-  username: "admin",
-  password: "admin123",
+  username: "wyd",
+  password: "wyd3344521",
   verifyCode: ""
 });
 
@@ -58,17 +57,19 @@ const onLogin = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      // 模拟请求，需根据实际开发进行修改
-      setTimeout(() => {
-        loading.value = false;
-        storageSession.setItem("info", {
-          username: "admin",
-          accessToken: "eyJhbGciOiJIUzUxMiJ9.test"
+      useUserStoreHook()
+        .loginByUsername({
+          username: ruleForm.username,
+          password: ruleForm.password
+        })
+        .then(() => {
+          initRouter("admin").then(() => {});
+          message.success("登录成功");
+          router.push("/");
+        })
+        .finally(() => {
+          loading.value = false;
         });
-        initRouter("admin").then(() => {});
-        message.success("登录成功");
-        router.push("/");
-      }, 2000);
     } else {
       loading.value = false;
       return fields;

@@ -46,9 +46,13 @@ export const useUserStore = defineStore({
     async loginByUsername(data) {
       return new Promise<void>((resolve, reject) => {
         getLogin(data)
-          .then(data => {
+          .then((data: any) => {
             if (data) {
               setToken(data);
+              storageSession.setItem("info", {
+                username: data.username,
+                accessToken: data.accessToken
+              });
               resolve();
             }
           })

@@ -7,7 +7,7 @@ export const getVerify = () => {
 
 // 登录
 export const getLogin = (data: object) => {
-  return http.post("/login", { data });
+  return http.post("/auth/login", { data });
 };
 
 // 刷新token
